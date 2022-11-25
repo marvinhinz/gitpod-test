@@ -1,0 +1,29 @@
+version: '3.2'
+services:
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    restart: always
+    ports:
+      - "8080:80"
+    volumes:
+      - "./.dev/nginx:/etc/nginx/conf.d"
+      - "./symfony/:/srv/htdocs/app"
+  php:
+    image: php
+    container_name: php
+    restart: always
+    ports:
+      - "9000:9000"
+    volumes:
+      - "./.dev/php:/etc/php-fpm/php81-fpm.d"
+      - "./symfony/:/srv/htdocs/app"
+
+  mariadb:
+    image: mariadb
+    container_name: mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - "./.dev/mariadb/:/var/lib/mysql"
